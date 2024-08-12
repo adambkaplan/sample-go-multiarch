@@ -1,0 +1,13 @@
+image:
+  tag: "latest"
+
+ingress:
+  enabled: true
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
