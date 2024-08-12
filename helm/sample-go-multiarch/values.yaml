@@ -1,0 +1,122 @@
+# Default values for sample-go-multiarch.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# replicaCount is the number of pods to run. Default to 3 so there is a chance the pods run on
+# machines with different architectures.
+replicaCount: 3
+
+# image sets where to pull the container image from, and its pull policy.
+image:
+  repository: quay.io/adambkaplan/sample-go-multiarch
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  # Use @sha256:hash to specify a specific image digest.
+  tag: ""
+
+imagePullSecrets: []
+
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Automatically mount a ServiceAccount's API credentials.
+  # Default false since this sample app does not talk to Kubernetes.
+  automount: false
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# podAnnotations adds annotations to the deployed pods.
+podAnnotations: {}
+# podLabels adds additional labels to the deployed pods. These are in addition to app.kubernetes.io
+# labels used to identify the application, manage deployments, and route requests.
+podLabels: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+# securityContext sets the container-level security context. Defaults to the "restricted" Pod
+# Security Standard values.
+securityContext:
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  # runAsUser sets the UID for the container. OpenShift uses an admission controller to force
+  # containers to run as a random, high-valued UID.
+  # runAsUser: 1001
+
+service:
+  type: ClusterIP
+  port: 80
+
+# ingress configures an Ingress object for the application. If enabled, default values are for
+# deploying on OpenShift Local. Change these to suit your needs!
+ingress:
+  enabled: false
+  className: openshift-default
+  annotations: {}
+  hosts:
+    - host: sample-go-multiarch.apps-crc.testing
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 20
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+# Additional volumes on the output Deployment definition.
+volumes: []
+# - name: foo
+#   secret:
+#     secretName: mysecret
+#     optional: false
+
+# Additional volumeMounts on the output Deployment definition.
+volumeMounts: []
+# - name: foo
+#   mountPath: "/etc/foo"
+#   readOnly: true
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
