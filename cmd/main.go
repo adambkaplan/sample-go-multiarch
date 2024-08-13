@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/adambkaplan/sample-go-multiarch/handler"
+	"github.com/adambkaplan/sample-go-multiarch/internal/handler"
 	"sigs.k8s.io/controller-runtime/pkg/manager/signals"
 )
 
