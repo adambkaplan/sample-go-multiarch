@@ -60,3 +60,14 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Image reference for deployment
+*/}}
+{{- define "sample-go-multiarch.containerImage" -}}
+{{- if .Values.image.fullRef }}
+{{- .Values.image.fullRef }}
+{{- else }}
+{{- default .Chart.AppVersion .Values.image.tag | printf "%s:%s" .Values.image.repository }}
+{{- end }}
+{{- end }}

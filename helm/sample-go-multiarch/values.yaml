@@ -2,17 +2,19 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-# replicaCount is the number of pods to run. Default to 3 so there is a chance the pods run on
-# machines with different architectures.
-replicaCount: 3
+# replicaCount is the number of pods to run.
+replicaCount: 1
 
 # image sets where to pull the container image from, and its pull policy.
 image:
   repository: quay.io/adambkaplan/sample-go-multiarch
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  # Use @sha256:hash to specify a specific image digest.
+  # tag overrides the image tag whose default is the chart AppVersion.
+  # Use @sha256:hash to reference an image by digest.
   tag: ""
+  # fullRef provides a full image reference for the container image, overriding the repository and
+  # tag values.
+  fullRef: ""
 
 imagePullSecrets: []
 
