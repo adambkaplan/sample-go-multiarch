@@ -5,27 +5,43 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 	"runtime"
 )
 
 //go:embed web/*
 var htmlTemplates embed.FS
 
-type RootHandler struct {
+type PodInfo struct {
 	Namespace string
-	Pod       string
+	Name      string
+	NodeName  string
+	IPAddress string
+}
+
+func PodInfoFromEnv() *PodInfo {
+	return &PodInfo{
+		Namespace: os.Getenv("POD_NAMESPACE"),
+		Name:      os.Getenv("POD_NAME"),
+		NodeName:  os.Getenv("NODE_NAME"),
+		IPAddress: os.Getenv("POD_IP"),
+	}
+}
+
+type RootHandler struct {
+	*PodInfo
 	OS        string
 	Arch      string
 	templates *template.Template
 }
 
-func MustRootHandler() *RootHandler {
+func MustRootHandler(pod *PodInfo) *RootHandler {
 	handler := &RootHandler{
-		Namespace: "demo-ns",
-		Pod:       "demo-pod",
-		OS:        runtime.GOOS,
-		Arch:      runtime.GOARCH,
+		PodInfo: pod,
+		OS:      runtime.GOOS,
+		Arch:    runtime.GOARCH,
 	}
+
 	handler.templates = template.Must(template.ParseFS(htmlTemplates, "web/*"))
 	return handler
 }

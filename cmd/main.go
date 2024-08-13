@@ -13,7 +13,7 @@ import (
 
 func main() {
 	mainCtx := signals.SetupSignalHandler()
-	rootHandler := handler.MustRootHandler()
+	rootHandler := handler.MustRootHandler(handler.PodInfoFromEnv())
 
 	server := &http.Server{
 		Addr: ":8080",
