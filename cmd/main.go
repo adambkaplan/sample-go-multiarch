@@ -19,6 +19,7 @@ func main() {
 		Addr: ":8080",
 	}
 	http.Handle("/", rootHandler)
+	http.HandleFunc("/healthz", handler.OKHandler)
 
 	log.Printf("Listening and serving at %s\n", server.Addr)
 	go func() {
