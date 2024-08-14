@@ -19,7 +19,13 @@ func TestEmbedFS(t *testing.T) {
 }
 
 func TestRootHandler(t *testing.T) {
-	handler := MustRootHandler()
+	testInfo := &PodInfo{
+		Namespace: "demo-ns",
+		Name:      "demo-name",
+		NodeName:  "demo-worker-node",
+		IPAddress: "127.0.0.0",
+	}
+	handler := MustRootHandler(testInfo)
 	testServer := httptest.NewServer(handler)
 	defer testServer.Close()
 
@@ -35,7 +41,13 @@ func TestRootHandler(t *testing.T) {
 	if err != nil {
 		t.Errorf("unexpected error reading response: %v", err)
 	}
-	if !strings.Contains(string(body), "Namespace: demo-ns") {
-		t.Errorf("expected page to contain string %q, got \n%s", "Namespace: demo-ns", string(body))
+	if !strings.Contains(string(body), "demo-ns") {
+		t.Errorf("expected page to contain string %q, got \n%s", "demo-ns", string(body))
+	}
+	if !strings.Contains(string(body), "demo-name") {
+		t.Errorf("expected page to contain string %q, got \n%s", "demo-name", string(body))
+	}
+	if !strings.Contains(string(body), "demo-worker-node") {
+		t.Errorf("expected page to contain string %q, got \n%s", "demo-worker-node", string(body))
 	}
 }

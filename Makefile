@@ -70,7 +70,7 @@ tidy: ## Run go mod tidy against the code.
 
 .PHONY: test
 test: fmt vet ## Run tests.
-	go test ./... -coverprofile cover.out
+	go test ./... -coverprofile _output/cover.out
 
 GOLANGCI_LINT = $(shell pwd)/bin/golangci-lint
 GOLANGCI_LINT_VERSION ?= v1.57.2

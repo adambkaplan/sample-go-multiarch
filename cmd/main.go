@@ -7,18 +7,19 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/adambkaplan/sample-go-multiarch/handler"
+	"github.com/adambkaplan/sample-go-multiarch/internal/handler"
 	"sigs.k8s.io/controller-runtime/pkg/manager/signals"
 )
 
 func main() {
 	mainCtx := signals.SetupSignalHandler()
-	rootHandler := handler.MustRootHandler()
+	rootHandler := handler.MustRootHandler(handler.PodInfoFromEnv())
 
 	server := &http.Server{
 		Addr: ":8080",
 	}
 	http.Handle("/", rootHandler)
+	http.HandleFunc("/healthz", handler.OKHandler)
 
 	log.Printf("Listening and serving at %s\n", server.Addr)
 	go func() {

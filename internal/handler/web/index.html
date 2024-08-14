@@ -1,0 +1,41 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <h1>Hello Multi-Arch Kubernetes!</h1>
+        <br/>
+        <h2>System Information</h2>
+        <br/>
+        <table>
+            <tr>
+                <th>Pod Field</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Namespace</td>
+                <td>{{.Namespace}}</td>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td>{{.Name}}</td>
+            </tr>
+            <tr>
+                <td>Node</td>
+                <td>{{.NodeName}}</td>
+            </tr>
+            <tr>
+                <td>IP Address</td>
+                <td>{{.IPAddress}}</td>
+            </tr>
+            <tr>
+                <td>OS</td>
+                <td>{{.OS}}</td>
+            </tr>
+            <tr>
+                <td>Arch</td>
+                <td>{{.Arch}}</td>
+            </tr>
+        </table>
+    </body>
+</html>
