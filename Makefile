@@ -1,33 +1,9 @@
-# VERSION defines the project version for the application and Helm Chart.
-# Update this value when you upgrade the version of your project.
-# To re-generate a bundle for another specific version without changing the standard setup, you can:
-# - use the VERSION as arg of the bundle target (e.g make bundle VERSION=0.0.2)
-# - use environment variables to overwrite this value (e.g export VERSION=0.0.2)
-VERSION ?= 0.1.0
-
-# IMAGE_TAG_BASE defines the image registry namespace and part of the image name for remote images.
-# This variable is used to construct the app container image, and in the future the OCI Helm Chart.
-IMAGE_TAG_BASE ?= quay.io/adambkaplan/sample-go-multiarch
-
-# Use APP_TAG to use a different tag to build and push the application image.
-# This defaults to semantic version of the project above.
-APP_TAG ?= v$(VERSION)
-
-# IMG sets the URL to build and push the application image.
-IMG ?= $(IMAGE_TAG_BASE):$(APP_TAG)
-
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
 ifeq (,$(shell go env GOBIN))
 GOBIN=$(shell go env GOPATH)/bin
 else
 GOBIN=$(shell go env GOBIN)
 endif
-
-# CONTAINER_TOOL defines the container tool to be used for building images.
-# Be aware that the target commands are only tested with Docker which is
-# scaffolded by default. However, you might want to replace it to use other
-# tools. (i.e. podman)
-CONTAINER_TOOL ?= podman
 
 # Setting SHELL to bash allows bash commands to be executed by recipes.
 # Options are set to exit when a recipe line exits non-zero or a piped command fails.
@@ -90,6 +66,29 @@ lint-fix: golangci-lint ## Run golangci-lint linter and perform fixes
 
 ##@ Build
 
+# VERSION defines the project version for the application and Helm Chart.
+# Update this value when you upgrade the version of your project.
+# To re-generate a bundle for another specific version without changing the standard setup, you can:
+# - use the VERSION as arg of the bundle target (e.g make bundle VERSION=0.0.2)
+# - use environment variables to overwrite this value (e.g export VERSION=0.0.2)
+VERSION ?= 0.1.0
+
+# IMAGE_TAG_BASE defines the image registry namespace and part of the image name for remote images.
+# This variable is used to construct the app container image, and in the future the OCI Helm Chart.
+IMAGE_TAG_BASE ?= quay.io/adambkaplan/sample-go-multiarch
+
+# Use APP_TAG to use a different tag to build and push the application image.
+# This defaults to semantic version of the project above.
+APP_TAG ?= v$(VERSION)
+
+# IMG sets the URL to build and push the application image.
+IMG ?= $(IMAGE_TAG_BASE):$(APP_TAG)
+
+# CONTAINER_TOOL defines the container tool to be used for building images.
+# Be aware that the target commands are only tested with Docker which is
+# scaffolded by default. However, you might want to replace it to use other
+# tools. (i.e. podman)
+CONTAINER_TOOL ?= podman
 
 # PLATFORMS defines the target platforms for the application image.
 # Pass as a comma-separated list of GOOS/GOARCH values (e.g. linux/amd64,linux/arm64).
