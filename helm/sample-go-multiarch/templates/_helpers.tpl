@@ -71,3 +71,21 @@ Image reference for deployment
 {{- default .Chart.AppVersion .Values.image.tag | printf "%s:%s" .Values.image.repository }}
 {{- end }}
 {{- end }}
+
+{{/*
+Pod affinity. Default to node anti-affinity
+*/}}
+{{- define "sample-go-multiarch.affinity" -}}
+{{- if .Values.affinity }}
+{{- toYaml .Values.affinity }}
+{{- else -}}
+podAntiAffinity:
+  preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 100
+      podAffinityTerm:
+        topologyKey: kubernetes.io/hostname
+        labelSelector:
+          matchLabels:
+            {{- include "sample-go-multiarch.selectorLabels" . | nindent 12 }}
+{{- end }}
+{{- end }}
