@@ -10,7 +10,8 @@ COPY internal/ internal/
 RUN go build -o server cmd/main.go
 
 FROM registry.access.redhat.com/ubi9/ubi-micro:9.4
-COPY --from=builder /opt/app-root/src/server /server
+WORKDIR /opt/app-root
+COPY --from=builder /opt/app-root/src/server .
 
 USER 65532:65532
-ENTRYPOINT [/server]
+ENTRYPOINT [ "./server" ]
